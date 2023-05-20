@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Throwable, Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        DB::transaction(function () {
+            try {
+                $this->call([
+                    \Database\Seeders\Default\People::class,
+                    \Database\Seeders\Default\PeopleUsers::class,
+                ]);
+                DB::commit();
+            } catch (Throwable $e) {
+                DB::rollBack();
+                throw new Exception($e->getMessage());
+            }
+        });
     }
 }
