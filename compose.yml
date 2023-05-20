@@ -1,0 +1,75 @@
+version: '3'
+networks:
+  perfectpay-network:
+volumes:
+  perfectpay-database-mysql:
+services:
+#serviço database mysql
+  database:
+    build:
+      context: "./server/docker"
+      dockerfile: 4-Mysql.Dockerfile
+    container_name: mysql-perfectpay
+    privileged: true
+    restart: always
+    networks:
+      - perfectpay-network
+    env_file:
+        - ./.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - perfectpay-database-mysql:/var/lib/mysql
+      - ./server/database/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+#serviço nginx
+  nginx:
+    build:
+      context: "./server/docker"
+      dockerfile: 1-Nginx.Dockerfile
+    container_name: nginx-perfectpay
+    privileged: true
+    restart: always
+    networks:
+      - perfectpay-network
+    ports:
+      - "80:80"
+    links:
+      - php
+    volumes:
+      - "./:/app/perfectpay/"
+      - "./server/nginx/settings/:/etc/nginx/conf.d/"
+      - "./server/nginx/certificate/:/etc/nginx/ssl/"
+      - "./server/nginx/settings/nginx.conf:/etc/nginx/nginx.conf"
+#serviço php-8.2
+  php:
+    build:
+      context: "./server/docker"
+      dockerfile: 2-Php.Dockerfile
+    container_name: php-perfectpay
+    privileged: true
+    restart: 'always'
+    networks:
+      - perfectpay-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
+    volumes:
+      - "./:/app/perfectpay/"
+      - "./server/php/php.ini:/usr/local/etc/php/php.ini"
+#serviço php composer
+  composer:
+    build:
+      context: "./server/docker"
+      dockerfile: 3-Composer.Dockerfile
+    container_name: php-composer-perfectpay
+    privileged: true
+    restart: 'no'
+    networks:
+      - perfectpay-network
+    environment:
+      - COMPOSER_CACHE_DIR=/etc/cache/composer
+    volumes:
+      - "./:/app/"
+    command: ['install']
+
