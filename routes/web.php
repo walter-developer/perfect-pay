@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\{
+    PaymentController,
+    PersonController
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('/')->group(function () {
+    //
+    //
+    Route::prefix('/client')->group(function () {
+        //
+        Route::post('/', [PersonController::class, 'createClient'])->name('view.payment');
+        //
+    });
+    //
+    //
+    Route::prefix('/payment')->group(function () {
+
+        Route::get('/', [PaymentController::class, 'viewPayment'])->name('view.payment');
+
+        Route::get('/success/', [PaymentController::class, 'viewPaymentSucess'])->name('view.payment.success');
+
+        Route::post('/tikect', [PaymentController::class, 'paymentTikect'])->name('payment.ticket');
+
+        Route::post('/pix', [PaymentController::class, 'paymentPix'])->name('payment.pix');
+
+        Route::post('/card', [PaymentController::class, 'paymentTikect'])->name('payment.card');
+    });
+    //
+    //
 });

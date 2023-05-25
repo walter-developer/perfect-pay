@@ -19,6 +19,12 @@ return new class extends Migration
                 ->comment('Cpf ou Cnpj da entidade pessoa.');
             $table->timestamp('birth_date')
                 ->comment('Data de nascimento da entidade pessoa.');
+            $table->string('email')->unique()->length(200)->nullable()
+                ->comment('E-mail da entidade pessoa.');
+            $table->string('phone', 11)
+                ->comment('Numero de telefone da entidade pessoa.');
+            $table->string('cell_phone', 12)
+                ->comment('Numero de celular da entidade pessoa.');
             $table->unsignedBigInteger('id_people_users')->nullable()
                 ->comment('ID da tabela people_users, para saber qual usuário é o principal!');
             $table->unsignedBigInteger('id_people_contacts')->nullable()
