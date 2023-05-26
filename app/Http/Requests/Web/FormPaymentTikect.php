@@ -5,6 +5,7 @@ namespace App\Http\Requests\Web;
 use App\Models\Person;
 use App\Http\Requests\WebFormRequest;
 use App\Integrations\ViaCep\ImportCep;
+use Carbon\Carbon;
 
 class FormPaymentTikect extends WebFormRequest
 {
@@ -13,7 +14,7 @@ class FormPaymentTikect extends WebFormRequest
         return  [
             'name' => 'required|brasil:nome_sobrenome',
             'document' => 'required|brasil:cpf_cnpj|cast:regex-numeric',
-            'birth_date' => 'required|date_format:Y-m-d',
+            'birth_date' => 'required|date_format:Y-m-d|before:' . Carbon::now()->subYears(18)->format('Y-m-d'),
             'email' => $this->email(),
             'phone' => 'required|brasil:fone|cast:regex-numeric',
             'cell_phone' => 'required|brasil:fone_cel|cast:regex-numeric',
@@ -21,7 +22,7 @@ class FormPaymentTikect extends WebFormRequest
             'number' => 'required|length:1,5',
             'observation' => 'required|length:3',
             'value' => 'required|brasil:real|cast:float',
-            'due_date' => 'required|date_format:Y-m-d',
+            'due_date' => 'required|date_format:Y-m-d|after_or_equal:starting_date',
             'description' => 'required'
         ];
     }
@@ -31,6 +32,7 @@ class FormPaymentTikect extends WebFormRequest
         return [
             'name' => 'nome',
             'document' => 'documento',
+            'birth_date' => 'data de nascimento',
             'email' => 'e-mail',
             'phone' => 'telefone',
             'cell_phone' => 'celular',
@@ -40,6 +42,14 @@ class FormPaymentTikect extends WebFormRequest
             'description' => 'descrição',
             'due_date' => 'data de vencimento',
             'value' => 'valor',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'due_date.after_or_equal' => 'O campo :attribute  deve ser uma data posterior ou igual a data atual.',
+            'birth_date.before' => 'O campo :attribute  deve ser uma data inferior a data ' . Carbon::now()->subYears(18)->format('d/m/Y'),
         ];
     }
 

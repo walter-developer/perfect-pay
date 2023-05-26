@@ -5,6 +5,7 @@ namespace App\Http\Requests\Web;
 use App\Http\Requests\WebFormRequest;
 use App\Integrations\ViaCep\ImportCep;
 use App\Models\Person;
+use Carbon\Carbon;
 
 class FormPaymentCard extends WebFormRequest
 {
@@ -13,7 +14,7 @@ class FormPaymentCard extends WebFormRequest
         return  [
             'name' => 'required|brasil:nome_sobrenome',
             'document' => 'required|brasil:cpf_cnpj|cast:regex-numeric',
-            'birth_date' => 'required|date_format:Y-m-d',
+            'birth_date' => 'required|date_format:Y-m-d|before:' . Carbon::now()->subYears(18)->format('Y-m-d'),
             'email' => $this->email(),
             'phone' => 'required|brasil:fone|cast:regex-numeric',
             'cell_phone' => 'required|brasil:fone_cel|cast:regex-numeric',
@@ -21,7 +22,7 @@ class FormPaymentCard extends WebFormRequest
             'number' => 'required|length:1,5',
             'observation' => 'required|length:3',
             'value' => 'required|brasil:real|cast:float',
-            'due_date' => 'required|date_format:Y-m-d',
+            'due_date' => 'required|date_format:Y-m-d|after_or_equal:starting_date',
             'description' => 'required',
             'payment.card.name' => 'required|brasil:nome_sobrenome',
             'payment.card.number' => 'required|length:13,16|cast:regex-numeric',
@@ -35,6 +36,7 @@ class FormPaymentCard extends WebFormRequest
         return [
             'name' => 'nome',
             'document' => 'documento',
+            'birth_date' => 'data de nascimento',
             'email' => 'e-mail',
             'phone' => 'telefone',
             'cell_phone' => 'celular',
@@ -48,6 +50,14 @@ class FormPaymentCard extends WebFormRequest
             'payment.card.number' => 'numero do cartão',
             'payment.card.expiration' => 'data expiração cartão',
             'payment.card.ccv' => 'código de verificação do cartão'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'due_date.after_or_equal' => 'O campo :attribute  deve ser uma data posterior ou igual a data atual.',
+            'birth_date.before' => 'O campo :attribute  deve ser uma data inferior a data ' . Carbon::now()->subYears(18)->format('d/m/Y'),
         ];
     }
 

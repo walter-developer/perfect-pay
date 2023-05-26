@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->group(function () {
     //
     //
+    Route::get('/', [PaymentController::class, 'viewPayment'])->name('view.payment');
+    //
+    //
     Route::prefix('/client')->group(function () {
         //
         Route::post('/', [PersonController::class, 'createClient'])->name('view.payment');

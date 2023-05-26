@@ -18,47 +18,47 @@ Pagamento
                             <div class="col-md-6">
                                 <label for="name" class="form-label">Nome completo</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ @old('name') }}"
-                                    placeholder="Nome e sobrenome">
+                                    placeholder="Nome e sobrenome" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="document" class="form-label">Documento</label>
                                 <input type="text" class="form-control" id="document" name="document"
-                                    value="{{ @old('document') }}" placeholder="000.000.000-00">
+                                    value="{{ @old('document') }}" placeholder="000.000.000-00" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="birth_date" class="form-label">Data Nascimento</label>
                                 <input type="date" class="form-control" id="birth_date" name="birth_date"
-                                    value="{{ @old('birth_date') }}" placeholder="01/01/2000">
+                                    value="{{ @old('birth_date') }}" placeholder="01/01/2000" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ @old('email') }}" placeholder="teste@teste.com">
+                                    value="{{ @old('email') }}" placeholder="teste@teste.com" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Telefone</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                    value="{{ @old('phone') }}" placeholder="(00)0000-0000">
+                                    value="{{ @old('phone') }}" placeholder="(00) 0000-0000" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="cell_phone" class="form-label">Celular</label>
                                 <input type="text" class="form-control" id="cell_phone" name="cell_phone"
-                                    value="{{ @old('cell_phone') }}" placeholder="(00) 0 0000-0000">
+                                    value="{{ @old('cell_phone') }}" placeholder="(00) 0 0000-0000" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="cep" class="form-label">Cep</label>
                                 <input type="text" class="form-control" id="cep" name="cep" value="{{ @old('cep') }}"
-                                    placeholder="00000-000">
+                                    placeholder="00000-000" required>
                             </div>
                             <div class="col-6">
                                 <label for="number" class="form-label">End. Numero</label>
                                 <input type="text" class="form-control" id="number" name="number"
-                                    value="{{ @old('number') }}" placeholder="00000">
+                                    value="{{ @old('number') }}" placeholder="00000" required maxlength="5">
                             </div>
                             <div class="col-6">
                                 <label for="observation" class="form-label">End. Observação</label>
                                 <input type="text" class="form-control" id="observation" name="observation"
-                                    value="{{ @old('observation') }}" placeholder="observação para o endereço">
+                                    value="{{ @old('observation') }}" placeholder="observação para o endereço" required>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@ Pagamento
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="value" class="form-label">Valor da cobrança</label>
+                                <label for="value" class="form-label">R$ Valor da cobrança</label>
                                 <input type="text" class="form-control" id="value" name="value"
                                     value="{{ @old('value') }}" placeholder="R$ Valor">
                             </div>

@@ -8,11 +8,13 @@
     <meta http-equiv="content-type" content="text/html; charset={{ config('app.configuration.charset') }}">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="{{ asset('static/img/favicon.png') }}" rel="icon" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('static/plugins/bootstrap-5.0.2/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('static/css/web/template.css') }}">
+    <link rel="stylesheet" href="{{ asset('static/plugins/bootstrap-icons-1.10.5/font/bootstrap-icons.css') }}">
     @yield('include-css')
 </head>
 
@@ -21,7 +23,9 @@
         <header class="p-3 mb-3 border-bottom">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <label>Perfect Pay</label>
+                    <img src="{{ asset('static/img/favicon.png') }}" width="30" height="30">
+                    &nbsp;
+                    <h3>Perfect Pay</h3>
                 </div>
             </div>
         </header>
