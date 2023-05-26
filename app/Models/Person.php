@@ -7,6 +7,7 @@ use App\Models\{
     Contact,
     PersonUser,
     PersonPhysical,
+    PersonCompany,
     PersonContact,
     PersonAddress,
 };
@@ -62,6 +63,11 @@ class Person extends Model
         return $this->hasOne(PersonPhysical::class, 'id_people', 'id');
     }
 
+    public function company()
+    {
+        return $this->hasOne(PersonCompany::class, 'id_people', 'id');
+    }
+
     public function users()
     {
         return $this->hasMany(PersonUser::class, 'id_people', 'id');
@@ -88,7 +94,6 @@ class Person extends Model
         return $this
             ->hasManyThrough(Contact::class, PersonContact::class, 'id_people', 'id', 'id', 'id_contacts');
     }
-
 
     public function setBirthDateAttribute($value)
     {

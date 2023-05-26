@@ -31,13 +31,13 @@ Route::prefix('/')->group(function () {
 
         Route::get('/', [PaymentController::class, 'viewPayment'])->name('view.payment');
 
-        Route::get('/success/', [PaymentController::class, 'viewPaymentSucess'])->name('view.payment.success');
+        Route::get('/{payment}/success', [PaymentController::class, 'viewPaymentSucess'])->name('view.payment.success');
 
         Route::post('/tikect', [PaymentController::class, 'paymentTikect'])->name('payment.ticket');
 
         Route::post('/pix', [PaymentController::class, 'paymentPix'])->name('payment.pix');
 
-        Route::post('/card', [PaymentController::class, 'paymentTikect'])->name('payment.card');
+        Route::post('/card', [PaymentController::class, 'paymentCard'])->name('payment.card');
     });
     //
     //

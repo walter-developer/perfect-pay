@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('id_charge_asaas', 20)->nullable()->comment('ID Cliente Asaas!');
             $table->smallInteger('charge_type')->nullable()->comment('Tipo da cobrança!');
             $table->smallInteger('charge_status')->nullable()->comment('Status da cobrança!');
+            $table->date('due_date')->nullable()->comment('Data de vencimento da cobrança.');
+            $table->decimal('value', 9, 0)->nullable()->comment('Valor da cobrança.');
+            $table->text('description')->nullable()->comment('Descrição da cobança do lado de cadastrante');
             $table->unsignedBigInteger('id_client_asaas')->comment('ID da tabela asaas_clients, para saber de qual cliente asaas é esta cobrança!');
             $table->foreign('id_client_asaas')->references('id')->on('asaas_clients');
             $table->softDeletes();

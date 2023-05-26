@@ -10,6 +10,7 @@ use App\Enumerations\{
     EnumChargeType,
     EnumChargeStatus
 };
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class AsaasClientCharge extends Model
@@ -20,6 +21,9 @@ class AsaasClientCharge extends Model
         'id',
         'id_charge_asaas',
         'id_client_asaas',
+        'due_date',
+        'value',
+        'description',
         'charge_type',
         'charge_status',
         'created_at',
@@ -32,6 +36,9 @@ class AsaasClientCharge extends Model
         'id_client_asaas',
         'charge_type',
         'charge_status',
+        'due_date',
+        'value',
+        'description',
     ];
 
     protected $appends = [
@@ -42,6 +49,12 @@ class AsaasClientCharge extends Model
     public function asaasClient()
     {
         return $this->belongsTo(AsaasClient::class, 'id_client_asaas', 'id');
+    }
+
+    public function setDueDateAttribute($value)
+    {
+        $date = Carbon::parse($value);
+        return  $this->setAttributeRaw('due_date', $date->format('Y-m-d'));
     }
 
     protected function chargeType(): Attribute

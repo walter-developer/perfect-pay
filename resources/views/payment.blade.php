@@ -3,9 +3,10 @@
 Pagamento
 @endsection
 @section('content')
-
 <div class="container mb-4">
     <form method="POST" action="{{ route('payment.ticket') }}">
+        @csrf
+        <input type="hidden" id="payment_type" name="payment_type" value="{{ @old('payment_type', 1) }}">
         <section>
             <div class="row">
                 <div class="card p-0 mb-4">
@@ -15,33 +16,49 @@ Pagamento
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Nome completo</label>
-                                <input type="text" class="form-control" id="inputEmail4" placeholder="Nome e sobrenome">
+                                <label for="name" class="form-label">Nome completo</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ @old('name') }}"
+                                    placeholder="Nome e sobrenome">
                             </div>
                             <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Documento</label>
-                                <input type="text" class="form-control" id="inputEmail4" placeholder="000.000.000-00">
+                                <label for="document" class="form-label">Documento</label>
+                                <input type="text" class="form-control" id="document" name="document"
+                                    value="{{ @old('document') }}" placeholder="000.000.000-00">
                             </div>
                             <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="teste@teste.com">
+                                <label for="birth_date" class="form-label">Data Nascimento</label>
+                                <input type="date" class="form-control" id="birth_date" name="birth_date"
+                                    value="{{ @old('birth_date') }}" placeholder="01/01/2000">
                             </div>
                             <div class="col-md-6">
-                                <label for="inputAddress" class="form-label">Telefone</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="(00)0000-0000">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ @old('email') }}" placeholder="teste@teste.com">
                             </div>
                             <div class="col-md-6">
-                                <label for="inputAddress" class="form-label">Celular</label>
-                                <input type="text" class="form-control" id="inputAddress"
-                                    placeholder="(00) 0 0000-0000">
+                                <label for="phone" class="form-label">Telefone</label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    value="{{ @old('phone') }}" placeholder="(00)0000-0000">
                             </div>
                             <div class="col-md-6">
-                                <label for="inputAddress" class="form-label">Cep</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="00000-000">
+                                <label for="cell_phone" class="form-label">Celular</label>
+                                <input type="text" class="form-control" id="cell_phone" name="cell_phone"
+                                    value="{{ @old('cell_phone') }}" placeholder="(00) 0 0000-0000">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cep" class="form-label">Cep</label>
+                                <input type="text" class="form-control" id="cep" name="cep" value="{{ @old('cep') }}"
+                                    placeholder="00000-000">
                             </div>
                             <div class="col-6">
-                                <label for="inputAddress" class="form-label">End. Numero</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="00000">
+                                <label for="number" class="form-label">End. Numero</label>
+                                <input type="text" class="form-control" id="number" name="number"
+                                    value="{{ @old('number') }}" placeholder="00000">
+                            </div>
+                            <div class="col-6">
+                                <label for="observation" class="form-label">End. Observação</label>
+                                <input type="text" class="form-control" id="observation" name="observation"
+                                    value="{{ @old('observation') }}" placeholder="observação para o endereço">
                             </div>
                         </div>
                     </div>
@@ -57,8 +74,20 @@ Pagamento
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Valor da cobrança</label>
-                                <input type="text" class="form-control" id="inputEmail4" placeholder="R$ Valor">
+                                <label for="value" class="form-label">Valor da cobrança</label>
+                                <input type="text" class="form-control" id="value" name="value"
+                                    value="{{ @old('value') }}" placeholder="R$ Valor">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="due_date" class="form-label">Vencimento da cobrança</label>
+                                <input type="date" class="form-control" id="due_date" name="due_date"
+                                    value="{{ @old('due_date') }}" placeholder="01/01/2000">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="description" class="form-label">Descrição / Identificador da
+                                    cobrança</label>
+                                <input type="text" class="form-control" id="description" name="description"
+                                    value="{{ @old('description') }}" placeholder="Descrição da cobrança">
                             </div>
                         </div>
                     </div>
@@ -68,47 +97,56 @@ Pagamento
                         <div class="accordion" id="paymentsForms">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <button
+                                        class="accordion-button {{ in_array(@old('payment_type', 1),[1]) ? '' : 'collapsed' }}"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                        aria-expanded="{{ in_array(@old('payment_type', 1),[1]) ? 'true' : 'false' }}"
+                                        aria-controls="collapseOne">
                                         Pagamento via boleto
                                     </button>
                                 </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                <div id="collapseOne"
+                                    class="accordion-collapse collapse {{ in_array(@old('payment_type', 1),[1]) ? 'show' : '' }}"
                                     aria-labelledby="headingOne" data-bs-parent="#paymentsForms">
                                     <div class="accordion-body">
-                                        @csrf
                                         <button type="button" class="btn btn-primary"
-                                            action-link="{{ route('payment.ticket') }}">Gerar Boleto</button>
+                                            action-link="{{ route('payment.ticket') }}" payment-type="1">Gerar
+                                            Boleto</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <button
+                                        class="accordion-button {{ in_array(@old('payment_type', 1),[2]) ? '' : 'collapsed' }}"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                        aria-expanded="{{ in_array(@old('payment_type', 1),[2]) ? 'true' : 'false' }}"
+                                        aria-controls="collapseTwo">
                                         Pagamento Via PIX
                                     </button>
                                 </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                    data-bs-parent="#paymentsForms">
+                                <div id="collapseTwo"
+                                    class="accordion-collapse collapse {{ in_array(@old('payment_type', 1),[2]) ? 'show' : '' }}"
+                                    aria-labelledby="headingTwo" data-bs-parent="#paymentsForms">
                                     <div class="accordion-body">
-                                        <form method="POST" action="{{ route('payment.pix') }}">
-                                            @csrf
-                                            <button type="button" class="btn btn-primary"
-                                                action-link="{{ route('payment.pix') }}">Gerar Qrcode Pix</button>
-                                        </form>
+                                        <button type="button" class="btn btn-primary"
+                                            action-link="{{ route('payment.pix') }}" payment-type="2">Gerar Qrcode
+                                            Pix</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                    <button
+                                        class="accordion-button {{ in_array(@old('payment_type', 1),[3]) ? '' : 'collapsed' }}"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                        aria-expanded="{{ in_array(@old('payment_type', 1),[3]) ? 'true' : 'false' }}"
                                         aria-controls="collapseThree">
                                         Pagamento via Cartão
                                     </button>
                                 </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse"
+                                <div id="collapseThree"
+                                    class="accordion-collapse collapse {{ in_array(@old('payment_type', 1),[3]) ? 'show' : '' }}"
                                     aria-labelledby="headingThree" data-bs-parent="#paymentsForms">
                                     <div class="accordion-body">
                                         <section id="payment">
@@ -118,33 +156,51 @@ Pagamento
                                                         <div class="card-body pt-5 pb-5">
                                                             <div class="row g-3">
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label">Nome do
-                                                                        proprietário do cartão no cartão</label>
+                                                                    <label for="payment_card_name" class="form-label">
+                                                                        Nome descrito no cartão
+                                                                    </label>
                                                                     <input type="text" class="form-control"
-                                                                        id="inputEmail4" placeholder="Nome no cartão">
+                                                                        id="payment_card_name"
+                                                                        name="payment[card][name]"
+                                                                        value="{{ @old('payment.card.name') }}"
+                                                                        placeholder="Nome no cartão">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label">Numero
-                                                                        do cartão</label>
-                                                                    <input type="email" class="form-control"
-                                                                        id="inputEmail4" placeholder="00000000000">
+                                                                    <label for="payment_card_number" class="form-label">
+                                                                        Numero do cartão
+                                                                    </label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="payment_card_number"
+                                                                        name="payment[card][number]"
+                                                                        value="{{ @old('payment.card.number') }}"
+                                                                        placeholder="00000000000">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="inputAddress" class="form-label">Data
-                                                                        expiração</label>
+                                                                    <label for="payment_card_expiration"
+                                                                        class="form-label">
+                                                                        Data expiração
+                                                                    </label>
                                                                     <input type="text" class="form-control"
-                                                                        id="inputAddress" placeholder="00/00">
+                                                                        id="payment_card_expiration"
+                                                                        name="payment[card][expiration]"
+                                                                        value="{{ @old('payment.card.expiration') }}"
+                                                                        placeholder="00/00">
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="inputAddress" class="form-label">CCV do
-                                                                        cartão</label>
+                                                                    <label for="payment_card_ccv" class="form-label">
+                                                                        CCV do cartão
+                                                                    </label>
                                                                     <input type="text" class="form-control"
-                                                                        id="inputAddress" placeholder="ccv">
+                                                                        id="payment_card_ccv" name="payment[card][ccv]"
+                                                                        value="{{ @old('payment.card.ccv') }}"
+                                                                        placeholder="ccv">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <button type="button" class="btn btn-primary"
-                                                                        action-link="{{ route('payment.card') }}">Pagar
-                                                                        com cartão</button>
+                                                                        action-link="{{ route('payment.card') }}"
+                                                                        payment-type="3">
+                                                                        Pagar com cartão
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -163,3 +219,6 @@ Pagamento
     </form>
 </div>
 @endsection
+@section('include-js')
+<script type="module" src="{{ asset('static/js/web/payment.min.js') }}">
+</script>

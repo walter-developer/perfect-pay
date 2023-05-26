@@ -19,9 +19,20 @@ class Clients
         $this->client = $client;
     }
 
+    protected function singleLevelArray(array $data = [])
+    {
+        $singleLevelArray = [];
+        array_walk_recursive($data, function ($value, $key) use (&$singleLevelArray) {
+            if (!empty($value) && !is_array($value) && in_array($key, ['description', 'descricao'])) {
+                $singleLevelArray[] = $value;
+            }
+        });
+        return array_filter($singleLevelArray);
+    }
+
     public function errors(): array
     {
-        return $this->errors;
+        return $this->singleLevelArray($this->errors);
     }
 
     public function createAsaasClient(Collection $client): Collection

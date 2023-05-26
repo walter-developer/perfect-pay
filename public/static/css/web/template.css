@@ -1,0 +1,7 @@
+.container-alert {
+    max-height: 200;
+    display: block;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-bottom: 20px;
+}

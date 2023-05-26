@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('static/plugins/bootstrap-5.0.2/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('static/css/web/template.css') }}">
     @yield('include-css')
 </head>
 
@@ -24,7 +25,7 @@
                 </div>
             </div>
         </header>
-        <section id="alert" class="container">
+        <section id="alert" class="container container-alert" {{ !$errors->any() ? 'hidden' : ''}}>
             @if($errors->any())
             <div class="container p-5">
                 @foreach($errors->getMessages() as $errors)
