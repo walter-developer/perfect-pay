@@ -6,7 +6,7 @@ No arquivo .env versionado, já deve estar declaradas as variaveis que serão us
 
 ---
 
-1° - Clonar o projeto ( perfectpay ) na maquina que será realizado o teste.
+1° - Clonar o projeto ( perfect-pay ) na maquina que será realizado o teste.
 
 ---
 
